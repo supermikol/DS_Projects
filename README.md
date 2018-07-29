@@ -1,2 +1,3 @@
 # DS_Projects
-Data Science Projects
+
+Repository of data science projects

@@ -46,4 +46,5 @@ For the data analysis section, I started with all the variables. In retrospect, 
 ### Summary
 
 By looking at the chart of feature importance values corresponding to Random Forest model, we can see that 5 Star Count and Review Count weigh heavily on the ranking. Additionally, the days_since_launch also correlate (albeit negatively) with the rank, meaning the longer the listing has existed, the lower the rank, which makes sense, as the dated reviews now hold less weight.
+
 ![alt text](https://github.com/supermikol/DS_Projects/raw/master/amazon_regression/imgs/rf_feature_importance.png "RF Feature Importance")
