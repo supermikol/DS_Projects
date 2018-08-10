@@ -1,5 +1,5 @@
 ## README
- f
+
 ### Objective
 This project is based on the Instacart Market Basket Analysis Challenge from Instacart. Using data from 3 million product orders across 200,000 users, the objective is to classify whether the product will be reordered.
 
@@ -7,58 +7,32 @@ More details here: https://www.kaggle.com/c/instacart-market-basket-analysis
 Data set: “The Instacart Online Grocery Shopping Dataset 2017”, Accessed from https://www.instacart.com/datasets/grocery-shopping-2017 on July 30, 2018
 
 
-
 ### Data
 From Kaggle: 
 >>> The dataset for this competition is a relational set of files describing customers' orders over time. The goal of the competition is to predict which products will be in a user's next order. The dataset is anonymized and contains a sample of over 3 million grocery orders from more than 200,000 Instacart users. For each user, we provide between 4 and 100 of their orders, with the sequence of products purchased in each order. We also provide the week and hour of day the order was placed, and a relative measure of time between orders. 
 https://www.kaggle.com/c/instacart-market-basket-analysis/data
 
+### Strategy
+- Feature Engineering with data from multiple join tables
+- Subsetting 5% of data for training/testing, due to computation limitations
+- Oversampling to account for class imbalance
+- 70/30 Train/test split by user_id
+- Standard Scaling features
+- Logistic Regression
+- F1 score measurement
+- Random Forest Classifier with hyperparameter tuning
+- XG Boost with hyperparameter tuning
 
+### Obstacles
+For feature engineering, there were two issues that I ran into. 
 
-The goal for this project is to systematically scrape the listings and conduct data analysis in specific Amazon product categories, with the purpose of identifying key metrics that correlate with a higher product category rank. Only 30% of buyers will scroll past the first page, and more often than not, the top 5 listings account for the bulk of the sales. The product's listing order is directly correlated with a product's ranking, and as such, rank is critical in the success of a product.
+- One was running into memory errors because the files were taking up too much space when I was joining them. I managed this by downcasting the column types, mainly from int64 to anything from int8 (Boolean columns) to int32. This was something Mike(the other one) showed me so for the first half of my project, I had to deal with a lot of kernel crashes
 
-For the purpose of this project, I set out to scrape 12,000 listings in the duffel bag category, followed by various regression analysis, to determine correlation between various scrapeable features and the rank.
+- Second was dealing with the NaN values for Days Since Prior Orders, because products that were purchased for the first time would end up with an NaN. I could not simply discard these rows because NaN itself was indicative of first time purchase, which is relevant in predictions. I dealt with this two alternative ways. The first method was to create separate bins, which was used for Logistic Regression. This created 7 extra dummy variable columns. The second method was to convert the NaN values to -1, which I used for tree based methods. 
 
-### Linear Regression Models
-OLS - 0.425 R^2
-OLS with Polynomials - 0.0.421 R^2
-ElasticNet - 0.221 R^2 (Not done on log transformed data)
-OLS with L2 - 0.416 R^2 (Not done on log transformed data)
-OLS with L1 (LassoCV) - 0.0.388 R^2 (Not done on log transformed data)
-(Non-linear) Random Forest - 0.678 R^2
+### Things to note
+- Because the dataset was so large (8+ million after grouping), I took out a 5% subset to run train/validation on. This 5% subset was assigned a 70/30 train/validate split, based on user_id
+- There was significant imbalance, which reflected in my baseline logistic regression run, so I applied an even-weight oversampling.
+- I ran logistic regression on individual features to gauge f1 scores for each one. In retrospect, and per Debbie’s advice, I should’ve done Lasso regression or use XGBoost feature importance to identify important features.
+- For my business approach, my intent was to use F1 as a more well-balanced metric, and utilize recall solely to calculate the dollar amount of revenue from reorder we’d be able to predict. In this case our goal was NOT to maximize recall. I was simply using the recall (0.3) to determine the percent of ALL reorders (10% of all orders are reorders) that was predictable. In this case, our model with it’s 0.3 rate will allow us to predict the equivalent of 3% of all revenue.
 
-### Approach
-
-#### Codebase
-The scraping code can be found in `Amazon_Selenium_Scraper.ipynb`.
-The data cleaning and analysis can be found in `Amazon_Review_Analysis.ipynb`
-I have also built a review analyzer container text analysis, in the notebook titled `Amazon_Review_Analysis.ipynb`.
-
-#### Scraping
-Because Amazon's product listings page is dynamically generated, this required utilizing the Selenium package to simulate clicks and scrolling to interact with and extract data from each page, through the use of xpaths.
-As the scraper ran, it would export data continuously to a raw csv file.
-
-Some challenges:
-- Amazon webpage content is dynamically generated by javascript, so that left me with selenium. Some buttons/links wouldn’t even generate until you actually scrolled down to a certain section of the site (for example, the ‘next page’ button)
-- The ID and CLASS tags on each listing varies from one to the next, and sometimes even the layout is completely different, so in the process I had to iterate through 10 listings to build a scraper that would capture most of the possible variance. Even then, there was still a bit of missing data, but thankfully I still had a lot of good data to work with. 
-
-#### Data Cleaning
-All the data were extracted as strings. In some cases, entire tables with inconsistent labels were input as a single row. This required a bit of work to identify the correct values associated with each label.
-
-A lot of data was missing. Due to time constraint of this project, I did not experiment with imputation.
-
-Of the 12000 listings, 3983 were missing Volume labels. In a basic comparison between eliminating all the rows with missing volume(less data), vs ignoring the column entirely (more data), it seems that eliminating rows with missing volumn (keeping the feature) results in a higher R^2 value (.425 vs .416). Hence we stuck with keeping the column.
-
-### Regression analysis
-Due to skewness of the data, I applied logarithmic transformation to the label data. My original analysis did not apply the transformation, and those results can be seen in the accompanying pdf. The code in the jupyter notebook has been updated to apply this transformation, and my R2 has gone up to 0.42 on validation data and 0.38 on testing data with just simple linear regression. Interestingly, polynomials now have a detrimental impact on the R-score.
-
-Applying random forest boosts the score up to 0.678, which is surprisingly high for the limited data.
-
-### Areas of Improvement
-For the data analysis section, I started with all the variables. In retrospect, I realize I should’ve started with fewer features to serve as a baseline model. 
-
-### Summary
-
-By looking at the chart of feature importance values corresponding to Random Forest model, we can see that 5 Star Count and Review Count weigh heavily on the ranking. Additionally, the days_since_launch also correlate (albeit negatively) with the rank, meaning the longer the listing has existed, the lower the rank, which makes sense, as the dated reviews now hold less weight.
-
-![alt text](https://github.com/supermikol/DS_Projects/raw/master/amazon_regression/imgs/rf_feature_importance.png "RF Feature Importance")
