@@ -41,19 +41,25 @@ For instance, the following word cloud clustered marriage announcements:
 ![alt text](https://github.com/supermikol/DS_Projects/raw/master/03_nytimes_unsupervised_NLP/imgs/topic9_marriages.png "Marriage Announcements")
 
 However, for the most part, most clusters produced very obvious topics:
+
 Middle East War:
+
 ![alt text](https://github.com/supermikol/DS_Projects/raw/master/03_nytimes_unsupervised_NLP/imgs/topic1.png "Middle East")
 
 Climate & Energy:
+
 ![alt text](https://github.com/supermikol/DS_Projects/raw/master/03_nytimes_unsupervised_NLP/imgs/topic3_climateEnergy.png "Climate and Energy")
 
 Finance:
+
 ![alt text](https://github.com/supermikol/DS_Projects/raw/master/03_nytimes_unsupervised_NLP/imgs/topic5_finance.png "Finance")
 
 Baseball:
+
 ![alt text](https://github.com/supermikol/DS_Projects/raw/master/03_nytimes_unsupervised_NLP/imgs/topic7_baseball.png "Baseball")
 
 Finally, I took the percentage weights of how each topic varied across the years:
+
 ![alt text](https://github.com/supermikol/DS_Projects/raw/master/03_nytimes_unsupervised_NLP/imgs/topic_graph.png "Topic Weights")
 
 Note how the sports coverage started with an incline, and peaked in 2014, followed by a steep drop, whereas global politics took a sudden spike in 2016, which correspond with the presidential election and the ensuring uptick in coverage that followed.
