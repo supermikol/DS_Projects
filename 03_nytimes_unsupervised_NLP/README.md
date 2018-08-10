@@ -1,5 +1,7 @@
 ## Unsupervised Learning topic modeling of historical New York Times articles
 
+Datasize: 268,000 manually scraped articles
+
 ### Objective
 The goal of this project was to track how topic coverage has varied over 10 years with the New York Times. I used two alternative unsupervised NLP techniques to cluster all articles (Latent Semantic Analysis, and Latent Dirichlet Allocation with K-Means), and then applied the learned clustering models on an annual basis, to track how the weight of each topic has varied over the years.
 

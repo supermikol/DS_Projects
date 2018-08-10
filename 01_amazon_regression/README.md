@@ -1,4 +1,6 @@
-## README
+## Linear Regression Analysis of Amazon Product Listings Ranking
+
+Datasize: 12,000 manually scraped Amazon listings
 
 ### Objective
 The goal for this project is to systematically scrape the listings and conduct data analysis in specific Amazon product categories, with the purpose of identifying key metrics that correlate with a higher product category rank. Only 30% of buyers will scroll past the first page, and more often than not, the top 5 listings account for the bulk of the sales. The product's listing order is directly correlated with a product's ranking, and as such, rank is critical in the success of a product.

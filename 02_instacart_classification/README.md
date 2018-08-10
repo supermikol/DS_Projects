@@ -1,16 +1,16 @@
-## README
+## Instacart Classification of Product Reordering by User
+
+Datasize: 3.4 million unique orders from 200,000 users (data from Kaggle)
+
+From Kaggle: 
+> The dataset for this competition is a relational set of files describing customers' orders over time. The goal of the competition is to predict which products will be in a user's next order. The dataset is anonymized and contains a sample of over 3 million grocery orders from more than 200,000 Instacart users. For each user, we provide between 4 and 100 of their orders, with the sequence of products purchased in each order. We also provide the week and hour of day the order was placed, and a relative measure of time between orders. 
+https://www.kaggle.com/c/instacart-market-basket-analysis/data
 
 ### Objective
 This project is based on the Instacart Market Basket Analysis Challenge from Instacart. Using data from 3 million product orders across 200,000 users, the objective is to classify whether the product will be reordered.
 
 More details here: https://www.kaggle.com/c/instacart-market-basket-analysis
 Data set: “The Instacart Online Grocery Shopping Dataset 2017”, Accessed from https://www.instacart.com/datasets/grocery-shopping-2017 on July 30, 2018
-
-
-### Data
-From Kaggle: 
-> The dataset for this competition is a relational set of files describing customers' orders over time. The goal of the competition is to predict which products will be in a user's next order. The dataset is anonymized and contains a sample of over 3 million grocery orders from more than 200,000 Instacart users. For each user, we provide between 4 and 100 of their orders, with the sequence of products purchased in each order. We also provide the week and hour of day the order was placed, and a relative measure of time between orders. 
-https://www.kaggle.com/c/instacart-market-basket-analysis/data
 
 ### Strategy
 - Feature Engineering with data from multiple join tables
